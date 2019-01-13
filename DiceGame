@@ -1,0 +1,82 @@
+int terninger [5];                        // Betyder den skal gentage den 5 gange - definere array
+int randNumber;
+int roll = 0;
+
+void setup() 
+{
+  Serial.begin(9600);                     // Opens serial port, sets data rate to 9600 bps
+  delay(1000);                            // Forsinket med 1 sekund
+  
+}
+
+void loop()                               // Loops consecutively, allowing your program to change and respond. Use it to actively control the Arduino board
+{
+int start = 0;
+  if(Serial.available())
+  {
+    start = Serial.read();
+    DiceGame();
+  }
+  
+                           
+}
+
+void DiceGame()
+{
+  if(roll == 0)
+  {
+ RollDice();        
+ roll++;                      
+  }
+  else if(roll == 1)
+  {
+    Serial.println();
+    RollDice();
+    Serial.print(terninger[1]);
+    roll++;
+  }
+  else if(roll == 2)
+  {
+    Serial.println();
+    RollDice();
+    roll++;
+  }
+  else
+  {
+    Serial.println();
+    Serial.println("Rolling is over");
+    delay(10000);
+  }
+}
+
+void ChooseDices()
+{
+  int first = terninger[0];
+  int second = terninger[1];
+  int third = terninger[2];
+  int fourth = terninger[3];
+  int fifth = terninger[4];
+  if(Serial.available())
+  {
+    Serial.println(first);
+  }
+}
+
+void RollDice()
+{
+ Serial.println("Terninger");             // Printer "Terninger" ud (terninger)
+    for (int i=0; i<5; i++)               // Slår med terningerne 5 gange array, (når i er større end 5 - stopper forløkken (loopet) - forfra efter delay)                                        // i++ forårsager at 'i' variablen bliver 1 større, når den har gjort det op til 5, stoppes forløkken.
+    {      
+       Roll(i);
+    }
+
+Serial.println();
+  }
+
+void Roll(int x)
+{
+  randNumber = random(1,7);          // Tal mellem 1 og 6 - tæller ikke 7 med (men op til 7)
+       terninger [x]=randNumber;          // Her giver vi terningerne et nummer, så det er terning 1 til 5 som bliver slået
+       Serial.print(randNumber);          // Printer et tilfældigt nummer fra 1 til 6
+       Serial.print(" ");
+}
